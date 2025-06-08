@@ -1,3 +1,13 @@
+"""CoreMS constant definitions.
+
+This module stores simple constant classes that are used across the
+project for labelling data, describing atoms and categorizing peaks.
+`PeakType` can be used when processing mass spectra to flag whether a
+peak is real or originates from artifacts such as harmonics or magnetron
+effects.
+"""
+
+
 class Labels:  # pragma: no cover
     """Class for Labels used in CoreMS
 
@@ -41,6 +51,16 @@ class Labels:  # pragma: no cover
         "adduct": "ADDUCT",
         "ADDUCT": "ADDUCT",
     }
+
+
+class PeakType:  # pragma: no cover
+    """Classify mass spectral peaks."""
+
+    REAL = "REAL"
+    HARMONIC = "HARMONIC"
+    MAGNETRON = "MAGNETRON"
+    SINC_WIGGLE = "SINC_WIGGLE"
+    UNKNOWN = "UNKNOWN"
 
 
 class Atoms:  # pragma: no cover
