@@ -16,7 +16,7 @@ from corems.encapsulation.input.parameter_from_json import (
 from corems.mass_spectrum.calc.KendrickGroup import KendrickGrouping
 from corems.mass_spectrum.calc.MassSpectrumCalc import MassSpecCalc
 from corems.mass_spectrum.calc.MeanResolvingPowerFilter import MeanResolvingPowerFilter
-from corems.ms_peak.factory.MSPeakClasses import ICRMassPeak as MSPeak
+from corems.ms_peak.factory.MSPeakClasses import ICRMassPeak as MSPeak, PeakType
 
 __author__ = "Yuri E. Corilo"
 __date__ = "Jun 12, 2019"
@@ -216,6 +216,7 @@ class MassSpecBase(MassSpecCalc, KendrickGrouping):
             len(self._mspeaks),
             exp_freq=exp_freq,
             ms_parent=ms_parent,
+            peak_type=PeakType.REAL,
         )
 
         self._mspeaks.append(mspeak)
