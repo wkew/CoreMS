@@ -2,12 +2,23 @@ __author__ = "Yuri E. Corilo"
 __date__ = "Jun 12, 2019"
 
 import math
+from enum import Enum, auto
 
 from numpy import nan
 
 from corems.mass_spectra.calc import SignalProcessing as sp
 from corems.molecular_formula.factory.MolecularFormulaFactory import MolecularFormula
 from corems.ms_peak.calc.MSPeakCalc import MSPeakCalculation
+
+
+class PeakType(Enum):
+    """Enumeration of MSPeak classification types."""
+
+    REAL = auto()
+    NOISE = auto()
+    SINC_WIGGLE = auto()
+    MAGNETRON = auto()
+    HARMONIC = auto()
 
 
 class _MSPeak(MSPeakCalculation):
@@ -69,6 +80,7 @@ class _MSPeak(MSPeakCalculation):
         index,
         ms_parent=None,
         exp_freq=None,
+        peak_type: PeakType = PeakType.REAL,
     ):
         self._ms_parent = ms_parent
         # needed to create the object
@@ -97,6 +109,8 @@ class _MSPeak(MSPeakCalculation):
         if exp_freq:
             self.freq_exp = float(exp_freq)
 
+        self._peak_type = peak_type
+
         if self._ms_parent is not None:
             kendrick_dict_base = self._ms_parent.mspeaks_settings.kendrick_base
         else:
@@ -115,7 +129,7 @@ class _MSPeak(MSPeakCalculation):
         self.found_isotopologues = {}
 
         # Label for what type of peak it is - real signal, noise, sinc wiggle, magnetron or harmonic peak, etc.
-        self.peak_type = None
+        # Stored in the _peak_type attribute
 
     def __len__(self):
         return len(self.molecular_formulas)
@@ -178,6 +192,15 @@ class _MSPeak(MSPeakCalculation):
     def clear_molecular_formulas(self):
         """Clears all molecular formulas associated with the peak."""
         self.molecular_formulas = []
+
+    @property
+    def peak_type(self) -> PeakType:
+        """Return the classification type of this peak."""
+        return self._peak_type
+
+    @peak_type.setter
+    def peak_type(self, value: PeakType):
+        self._peak_type = value
 
     @property
     def mz_exp(self):

@@ -1,6 +1,6 @@
 import sys
 
-from corems.ms_peak.factory.MSPeakClasses import ICRMassPeak
+from corems.ms_peak.factory.MSPeakClasses import ICRMassPeak, PeakType
 
 
 def test_mspeaks_fit(mass_spectrum_ftms):
@@ -26,6 +26,7 @@ def test_mspeak_calculations():
         signal_to_noise,
         massspec_index,
         index,
+        peak_type=PeakType.REAL,
     )
     assert mspeak.resolving_power == 1000000
 
