@@ -130,6 +130,8 @@ As an open source project, CoreMS welcomes contributions of all forms. Before co
 - Kendrick filter using density-based clustering
 - Kendrick classification
 - Heteroatoms classification and visualization
+- Peak classification using the `PeakType` enumeration and harmonic peak
+  detection with `detect_harmonic_peaks`
 
 ### GC-MS Signal Processing, Calibration, and Compound Identification
 
