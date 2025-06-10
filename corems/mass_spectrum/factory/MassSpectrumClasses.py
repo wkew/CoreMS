@@ -1442,7 +1442,9 @@ class MassSpecfromFreq(MassSpecBase):
         -----
         For every pair of peaks the ratio of their experimental frequencies is
         compared against the integers 2, 3 and 4. Peaks for which the ratio is
-        within ``tol`` of these integers are marked with ``PeakType.HARMONIC``.
+        within ``tol`` of these integers are flagged as harmonic by setting
+        their :pyattr:`~corems.ms_peak.factory.MSPeakClasses.MSPeak.peak_type`
+        to :class:`~corems.ms_peak.factory.MSPeakClasses.PeakType.HARMONIC`.
         When quadrupolar detection is enabled (``self.transient_settings.qpd_enabled``
         equals ``1``) only the less abundant peak of the pair is flagged as a
         harmonic.

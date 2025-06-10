@@ -12,7 +12,21 @@ from corems.ms_peak.calc.MSPeakCalc import MSPeakCalculation
 
 
 class PeakType(Enum):
-    """Enumeration of MSPeak classification types."""
+    """Enumeration of peak classification types used by :class:`MSPeak`.
+
+    Members
+    -------
+    REAL
+        Genuine signal peak.
+    NOISE
+        Noise or background signal.
+    SINC_WIGGLE
+        Peaks originating from Fourier transform sinc wiggles.
+    MAGNETRON
+        Magnetron sidebands.
+    HARMONIC
+        Harmonic artifacts detected by :meth:`~corems.mass_spectrum.factory.MassSpecfromFreq.detect_harmonic_peaks`.
+    """
 
     REAL = auto()
     NOISE = auto()

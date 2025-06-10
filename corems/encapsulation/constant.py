@@ -2,9 +2,10 @@
 
 This module stores simple constant classes that are used across the
 project for labelling data, describing atoms and categorizing peaks.
-`PeakType` can be used when processing mass spectra to flag whether a
-peak is real or originates from artifacts such as harmonics or magnetron
-effects.
+
+``PeakType`` is an :class:`enum.Enum` used when processing mass spectra to
+flag whether a peak is a real signal or an artefact such as a harmonic or
+magnetron side band.
 """
 
 
