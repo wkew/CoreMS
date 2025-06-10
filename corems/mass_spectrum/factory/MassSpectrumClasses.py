@@ -1430,6 +1430,52 @@ class MassSpecfromFreq(MassSpecBase):
         self.magnetron_frequency = out.best_values["center"]
         self.magnetron_frequency_sigma = out.best_values["sigma"]
 
+    def detect_harmonic_peaks(self, tol=0.002):
+        """Detect and flag harmonic peaks based on frequency ratios.
+
+        Parameters
+        ----------
+        tol : float, optional
+            Relative tolerance used when comparing frequency ratios.
+
+        Notes
+        -----
+        For every pair of peaks the ratio of their experimental frequencies is
+        compared against the integers 2, 3 and 4. Peaks for which the ratio is
+        within ``tol`` of these integers are marked with ``PeakType.HARMONIC``.
+        When quadrupolar detection is enabled (``self.transient_settings.qpd_enabled``
+        equals ``1``) only the less abundant peak of the pair is flagged as a
+        harmonic.
+        """
+
+        ratios = [2, 3, 4]
+        n_peaks = len(self.mspeaks)
+
+        for i in range(n_peaks):
+            for j in range(i + 1, n_peaks):
+                p1 = self.mspeaks[i]
+                p2 = self.mspeaks[j]
+
+                if not getattr(p1, "freq_exp", None) or not getattr(p2, "freq_exp", None):
+                    continue
+
+                if p1.freq_exp >= p2.freq_exp:
+                    high, low = p1, p2
+                else:
+                    high, low = p2, p1
+
+                ratio = high.freq_exp / low.freq_exp
+
+                for r in ratios:
+                    if abs(ratio - r) <= r * tol:
+                        if self.transient_settings.qpd_enabled == 1:
+                            harmonic_peak = low if high.abundance >= low.abundance else high
+                        else:
+                            harmonic_peak = high
+
+                        harmonic_peak.peak_type = PeakType.HARMONIC
+                        break
+
 
 class MassSpecCentroid(MassSpecBase):
     """A mass spectrum class when the entry point is on centroid format
